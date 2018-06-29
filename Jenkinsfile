@@ -16,12 +16,12 @@ pipeline {
       parallel {
         stage('Unit Test') {
           steps {
-            sh 'ng test --watch=false'
+            sh 'npm run test --watch=false'
           }
         }
         stage('Lint') {
           steps {
-            sh 'ng lint'
+            sh 'npm run lint'
           }
         }
       }
