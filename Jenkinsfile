@@ -11,18 +11,14 @@ pipeline {
         sh 'npm install'
       }
     }
-    stage('Test & Lint') {
-      parallel {
-        stage('Install Chrome & Unit Test') {
-          steps {
-            sh 'npm run test'
-          }
-        }
-        stage('Lint') {
-          steps {
-            sh 'npm run lint'
-          }
-        }
+    stage('Unit Test') {
+      steps {
+        sh 'npm run test'
+      }
+    }
+    stage('Lint') {
+      steps {
+        sh 'npm run lint'
       }
     }
   }
