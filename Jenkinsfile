@@ -15,7 +15,7 @@ pipeline {
       parallel {
         stage('Install Chrome & Unit Test') {
           steps {
-            sh 'npm run test --watch=false'
+            sh 'npm run test'
           }
         }
         stage('Lint') {
