@@ -5,8 +5,6 @@ import * as Factory from 'factory.ts';
 import { RichLink } from '../../models/rich-link';
 import { RichLinkGridComponent } from './rich-link-grid.component';
 
-
-
 @Component({
   template:
     '<app-rich-link-grid [richLinks]="getLinks()" (gridBoxClicked)="goToUrl($event)"></app-rich-link-grid>',
@@ -38,6 +36,7 @@ describe('RichLinkGridComponent', () => {
     richLinkFactory = Factory.makeFactory<RichLink>({
       url: Factory.each(i => '/policeforce' + i),
       imageUrl: Factory.each(i => '/policeforce' + i + '.jpg'),
+      text: Factory.each(i => 'force' + i),
     });
   });
 
@@ -63,9 +62,7 @@ describe('RichLinkGridComponent', () => {
     });
 
     it(`should emit an event containing the url specified in its RichLink`, () => {
-      hostFixture.detectChanges();
       spyOn(hostComponent, 'goToUrl').and.stub();
-      spyOn(hostComponent.testedComponent, 'onBoxClick').and.callThrough();
 
       const expectedUrls: string[] = expectedLinks.map(link => link.url);
 
@@ -73,6 +70,16 @@ describe('RichLinkGridComponent', () => {
         box.nativeElement.click();
 
         expect(hostComponent.goToUrl).toHaveBeenCalledWith(expectedUrls[index]);
+      });
+    });
+
+    it(`should display the text in its RichLink`, () => {
+      const expectedTexts: string[] = expectedLinks.map(link => link.text);
+
+      boxes.forEach((box, index) => {
+        hostFixture.detectChanges();
+
+        expect(box.nativeNode.innerText).toContain(expectedTexts[index]);
       });
     });
   });
