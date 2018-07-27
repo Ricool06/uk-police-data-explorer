@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RichLink } from '../../models/rich-link';
 
 @Component({
@@ -7,12 +7,14 @@ import { RichLink } from '../../models/rich-link';
   styleUrls: ['./rich-link-grid.component.css'],
 })
 export class RichLinkGridComponent implements OnInit {
-
   @Input() richLinks: RichLink[] = [];
+  @Output() gridBoxClicked: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  public onBoxClick(richLink: RichLink): void {
+    this.gridBoxClicked.emit(richLink.url);
   }
-
 }

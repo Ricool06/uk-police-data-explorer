@@ -1,1 +1,5 @@
-<div class="box" *ngFor="let richLink of richLinks"></div>
+<div
+  class="box"
+  *ngFor="let richLink of richLinks"
+  (click)="onBoxClick(richLink)">
+</div>

@@ -7,8 +7,8 @@ import { AppRoutingModule } from './modules/app-routing/app-routing.module';
 import { RichLinkGridComponent } from './shared/components/rich-link-grid/rich-link-grid.component';
 
 @NgModule({
-  declarations: [HomeComponent, RootComponent, AppRoutingModule, RichLinkGridComponent],
-  imports: [BrowserModule],
+  declarations: [HomeComponent, RootComponent, RichLinkGridComponent],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [RootComponent],
 })

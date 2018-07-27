@@ -1,18 +1,22 @@
+import { Component, DebugElement, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RichLinkGridComponent } from './rich-link-grid.component';
-import { Component, ViewChild } from '@angular/core';
-import { RichLink } from '../../models/rich-link';
-
-import * as Factory from 'factory.ts';
 import { By } from '@angular/platform-browser';
+import * as Factory from 'factory.ts';
+import { RichLink } from '../../models/rich-link';
+import { RichLinkGridComponent } from './rich-link-grid.component';
+
+
 
 @Component({
-  template: '<app-rich-link-grid [richLinks]="getLinks()"></app-rich-link-grid>',
+  template:
+    '<app-rich-link-grid [richLinks]="getLinks()" (gridBoxClicked)="goToUrl($event)"></app-rich-link-grid>',
 })
 class HostComponent {
   @ViewChild(RichLinkGridComponent) testedComponent: RichLinkGridComponent;
-  getLinks(): RichLink[] { return []; }
+  getLinks(): RichLink[] {
+    return [];
+  }
+  goToUrl(): void {}
 }
 
 describe('RichLinkGridComponent', () => {
@@ -22,9 +26,8 @@ describe('RichLinkGridComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RichLinkGridComponent, HostComponent ],
-    })
-    .compileComponents();
+      declarations: [RichLinkGridComponent, HostComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -33,8 +36,8 @@ describe('RichLinkGridComponent', () => {
     hostFixture.detectChanges();
 
     richLinkFactory = Factory.makeFactory<RichLink>({
-      url: Factory.each(i => i + '.com'),
-      imageUrl: Factory.each(i => i + '.com/image.jpg'),
+      url: Factory.each(i => '/policeforce' + i),
+      imageUrl: Factory.each(i => '/policeforce' + i + '.jpg'),
     });
   });
 
@@ -42,14 +45,35 @@ describe('RichLinkGridComponent', () => {
     expect(hostComponent).toBeTruthy();
   });
 
-  it('should generate a grid of boxes from an input list of RichLinks', () => {
-    const expectedLinks: RichLink[] = richLinkFactory.buildList(4);
-    spyOn(hostComponent, 'getLinks').and.returnValue(expectedLinks);
+  describe('boxes in the grid', () => {
+    let boxes: DebugElement[];
+    let expectedLinks: RichLink[];
 
-    hostFixture.detectChanges();
+    beforeEach(() => {
+      expectedLinks = richLinkFactory.buildList(4);
+      spyOn(hostComponent, 'getLinks').and.returnValue(expectedLinks);
 
-    const boxes = hostFixture.debugElement.queryAll(By.css('.box'));
+      hostFixture.detectChanges();
 
-    expect(boxes.length).toBe(4);
+      boxes = hostFixture.debugElement.queryAll(By.css('.box'));
+    });
+
+    it('should be generated from an input list of RichLinks', () => {
+      expect(boxes.length).toBe(4);
+    });
+
+    it(`should emit an event containing the url specified in its RichLink`, () => {
+      hostFixture.detectChanges();
+      spyOn(hostComponent, 'goToUrl').and.stub();
+      spyOn(hostComponent.testedComponent, 'onBoxClick').and.callThrough();
+
+      const expectedUrls: string[] = expectedLinks.map(link => link.url);
+
+      boxes.forEach((box, index) => {
+        box.nativeElement.click();
+
+        expect(hostComponent.goToUrl).toHaveBeenCalledWith(expectedUrls[index]);
+      });
+    });
   });
 });
