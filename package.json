@@ -1,11 +1,12 @@
 {
   "name": "uk-police-data-explorer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test --sourceMap=false",
+    "test": "ng test --sourceMap=false --karma-config=src/karma.conf.js",
+    "test-ci": "ng test --sourceMap=false --karma-config=src/karma.ci.conf.js",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

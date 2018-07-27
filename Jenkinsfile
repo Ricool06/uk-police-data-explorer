@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Unit Test') {
       steps {
-        sh 'npm run test'
+        sh 'npm run test-ci'
       }
     }
     stage('Lint') {
