@@ -6,19 +6,23 @@ pipeline {
 
   }
   stages {
-    stage('Build') {
-      steps {
-        sh 'npm install'
+    stage('Build & Lint') {
+      parallel {
+        stage('Build') {
+          steps {
+            sh 'npm install'
+          }
+        }
+        stage('Lint') {
+          steps {
+            sh 'npm run lint'
+          }
+        }
       }
     }
     stage('Unit Test') {
       steps {
         sh 'npm run test-ci'
-      }
-    }
-    stage('Lint') {
-      steps {
-        sh 'npm run lint'
       }
     }
   }
