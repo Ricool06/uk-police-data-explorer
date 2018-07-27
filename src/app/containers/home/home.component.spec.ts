@@ -22,8 +22,4 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('Forces link grid', () => {
-    
-  });
 });
