@@ -1,3 +1,6 @@
 <div class="box" *ngFor="let richLink of richLinks" (click)="onBoxClick(richLink)">
+  <figure class="image is-square">
+    <img src="{{ richLink.imageUrl }}">
+  </figure>
   <p>{{ richLink.text }}</p>
 </div>

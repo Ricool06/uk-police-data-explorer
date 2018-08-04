@@ -35,7 +35,7 @@ describe('RichLinkGridComponent', () => {
 
     richLinkFactory = Factory.makeFactory<RichLink>({
       url: Factory.each(i => '/policeforce' + i),
-      imageUrl: Factory.each(i => '/policeforce' + i + '.jpg'),
+      imageUrl: Factory.each(i => 'https://ricool.uk/policeforce' + i + '.jpg'),
       text: Factory.each(i => 'force' + i),
     });
   });
@@ -77,9 +77,17 @@ describe('RichLinkGridComponent', () => {
       const expectedTexts: string[] = expectedLinks.map(link => link.text);
 
       boxes.forEach((box, index) => {
-        hostFixture.detectChanges();
-
         expect(box.nativeNode.innerText).toContain(expectedTexts[index]);
+      });
+    });
+
+    it('should display the image in its RichLink', () => {
+      const expectedImageUrls: string[] = expectedLinks.map(link => link.imageUrl);
+
+      boxes.forEach((box, index) => {
+        const image: DebugElement = box.query(By.css('img'));
+        expect(image).toBeTruthy();
+        expect(image.nativeElement.src).toBe( expectedImageUrls[index]);
       });
     });
   });
