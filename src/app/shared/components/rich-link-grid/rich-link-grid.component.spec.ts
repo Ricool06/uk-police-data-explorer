@@ -24,7 +24,7 @@ describe('RichLinkGridComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RichLinkGridComponent, HostComponent],
+      declarations: [ RichLinkGridComponent, HostComponent ],
     }).compileComponents();
   }));
 
