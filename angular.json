@@ -125,5 +125,8 @@
       }
     }
   },
-  "defaultProject": "uk-police-data-explorer"
+  "defaultProject": "uk-police-data-explorer",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
